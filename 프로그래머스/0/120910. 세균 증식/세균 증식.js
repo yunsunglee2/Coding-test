@@ -8,7 +8,7 @@ function solution(n, t) {
     // 2시간 4n 
     // 3시간 8n
     
-    answer = n*2**t
+    answer = n*Math.pow(2,t)
     
     return answer;
 }
