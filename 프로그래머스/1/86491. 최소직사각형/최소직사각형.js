@@ -1,19 +1,20 @@
 function solution(sizes) {
     var answer = 0;
-    // 지갑 크기, 가로, 세로
-    let maxWidth = 0;
-    let maxHeight = 0;
+    // 찾고자하는 값 변수 선언
+    let hori = 0;
+    let verti = 0;
     
-    // 두 값중 긴 길이가 가로, 작은 길이가 세로
-    sizes.forEach(([width, height]) => {
-        const larger = Math.max(width, height)
-        const smaller = Math.min(width, height)
+    // 원단길이 순회
+    sizes.forEach((size) => {
+        // 눕힙다 -> 가로, 세로 길이 변경한다 -> 기준: 긴 값 = 가로 통일
+        const larger = Math.max(size[0], size[1]);
+        const smaller = Math.min(size[0], size[1]);
         
-        maxWidth = Math.max(maxWidth, larger)
-        maxHeight = Math.max(maxHeight, smaller)
-    })
+        hori = Math.max(smaller, hori);
+        verti = Math.max(larger,verti);
+    });
     
-    answer = maxWidth*maxHeight
+    answer = hori*verti ;
     
     return answer;
 }
