@@ -1,21 +1,21 @@
 function solution(array, commands) {
     var answer = [];
     
-    // 정렬 문제 
-    // i ~ j 자르고 정렬, k 번째 수를 구해라
-    
-    // i, j, k 구하기 
-    // 커맨드 순회
-    const NewAnswer = commands.map((item)=> {
-        // 1. slice로 자르기 
-        const slicedArray = [...array].slice(item[0]-1,item[1])
-        // 2. sort로 오름차순 정렬 
-        const sortedArray = [...slicedArray].sort((a,b)=> a- b)
-        // 3. 배열의 k+1 인덱스 수 구하기
-        return sortedArray[item[2]-1]
+    // slice(begin, end) end 미포함, 인덱스, 길이 주의
+    commands.forEach((command) => {
+        const i = command[0];
+        const j = command[1];
+        const k = command[2];
+    // i 번째 ~ j 번쨰 자르고 sort    
+        const sortedArray = array.slice(i-1,j).sort((a,b) => a-b);
+    // k 번째 수 구하기 (인덱스 주의)
+        answer.push(sortedArray[k-1]);
     })
     
-    answer.push(...NewAnswer)
+    
+    
+    
+    
     
     return answer;
 }
