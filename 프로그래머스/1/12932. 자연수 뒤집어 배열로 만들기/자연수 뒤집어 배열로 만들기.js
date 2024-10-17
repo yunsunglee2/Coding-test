@@ -9,5 +9,9 @@ function solution(n) {
         answer.push(Number(spiltedArray[i]))
     }
     
+    // 배열메서드 reverse 사용하기
+    // const reversedArray = spiltedArray.reverse().map((el) => +el)
+    // console.log(reversedArray)
+    
     return answer;
 }
