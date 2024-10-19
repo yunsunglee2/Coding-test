@@ -16,7 +16,7 @@ function solution(num) {
         } else {
             return answer;
         }
-        answer += 1
+        answer++
     }
     // answer 가 500이 되면 -1 반환
     if (answer === 500) {
