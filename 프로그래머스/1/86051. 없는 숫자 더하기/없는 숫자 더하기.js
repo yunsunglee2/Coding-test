@@ -13,8 +13,6 @@ function solution(numbers) {
         numberList[number] = numberList[number] + 1
     })
     
-    console.log(numberList)
-    
     // 0 인 키 조회
     for(const number in numberList){
         if(numberList[number] === 0) {
