@@ -1,16 +1,17 @@
-function solution(arr)
-{
+    // [1] arr를 순회하면서 answer에 push 합니다.
+    
+    // [2] answer에  이미 arr의 요소가 같은 것이 있다면 Pop합니다.
+
+function solution(arr) {
     var answer = [];
     
-    //순회하면서 푸쉬
-    arr.forEach((num, i) => {
-            if(answer.length === 0 || answer[answer.length-1] !== num) {
-                answer.push(num)
-        }
+    arr.forEach((el) => {
+        answer.push(el);
+        const lastEl = answer[answer.length - 2];
+        if(el === lastEl) {
+            answer.pop(el);   
+        }    
     })
-
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    console.log('Hello Javascript')
     
     return answer;
 }
