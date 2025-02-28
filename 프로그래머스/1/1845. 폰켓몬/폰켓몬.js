@@ -1,13 +1,14 @@
+    // 선택가능한 폰켓몬 갯수
+    
+    // 폰켓몬 종류
+
 function solution(nums) {
     var answer = 0;
+    const deDuplication = new Set(nums);
+    const poncketmonTypes = deDuplication.size;
+    const selectableNums = nums.length/2;
     
-    // N 마리 중에서 N/2 마리 픽, 최대한 다양한 종류 포켓몬 픽 
-    
-    const allowedCount = nums.length/2
-    
-    const deletedCount = new Set(nums);
-    
-    answer = Math.min(allowedCount, deletedCount.size)
+    answer = poncketmonTypes > selectableNums ? selectableNums : poncketmonTypes;
     
     return answer;
 }
