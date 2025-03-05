@@ -1,36 +1,28 @@
 function solution(n, lost, reserve) {
-    let answer = 0;
-    const uniformTable = {};
-    let realReserve = reserve.filter(r => !lost.includes(r));
-    let realLost = lost.filter(l => !reserve.includes(l));
-    realReserve.sort((a,b) => a-b);
-    realLost.sort((a,b) => a-b);
+    var answer = 0;
+    const uniforms = {};
+    let realReserve;
     
-    // 체육복 유무 테이블을 생성한다.
-    for(let i = 1; i <= n; i ++) {
-        uniformTable[i] = true;
-    }
+    for(let i = 0; i < n; i ++) {
+        uniforms[i+1] = true;
+    };
     
-    // lost 배열을 순회하면서 lost 요소 번호 +-1 값이 realReserve에 없다면 체육복 false로 변경한다.
-    realLost.forEach(lostEl => {
-        const hasPrev = realReserve.includes(lostEl-1);
-        const hasNext = realReserve.includes(lostEl+1);
-        if(hasPrev) {
-            realReserve = realReserve.filter(realReserveEl => realReserveEl !== lostEl-1);
-        } else if(hasNext) {
-            realReserve = realReserve.filter(realReserveEl => realReserveEl !== lostEl+1);
-        } 
-        if(!hasPrev && !hasNext) {
-            uniformTable[lostEl] = false;
-        }
+    console.log(uniforms)
+    
+    // reserve 배열에서 lost 번호가 존재하면 filter 처리
+    lost.forEach((lostStudent) => {
+        const filteredReserve = reserve.filter(reserver => reserver !==lostStudent );
+        realReserve = [...filteredReserve];
+        
+        // 순회하면서 realReserve에 +-1 번호가 존재하지 않으면 false 처리하고 reserve 배열에서 삭제
+        const filteredStudent = realReserve.filter(reserver => reserver !== lostStudent+1 ||  reserver !== lostStudent-1)
+        
+        console.log(filteredStudent, '--filteredStudent--')
+        
+        
     })
     
-    // 객체를 순회하며 false를 발견하면 answer++
-    for (const uniform in uniformTable) {
-        if (uniformTable[uniform]) {
-            answer++;
-        }
-    }
+    // 비교한 요소는 reserve에서 제거 중복빌림 방지 
     
     return answer;
 }
