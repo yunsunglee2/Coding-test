@@ -1,25 +1,25 @@
 function solution(participant, completion) {
     var answer = '';
-    // 이름-인원수 표 만들기
-    const participants = {};
+    const table = {};
     
-    participant.forEach(participant_el => {
-        if(participants[participant_el] > 0) {
-            participants[participant_el]++;    
+    // 참가자 표 생성
+    participant.forEach(person => {
+        if(table[person]) {
+            table[person] +=1;
         } else {
-            participants[participant_el] = 1;    
+            table[person] = 1;
         }
     })
     
-    completion.forEach(completion_el => {
-        if(participants[completion_el] > 0) {
-            participants[completion_el]--; 
-        }
+    // 완주한 사람 확인
+    completion.forEach(completedPerson => {
+        table[completedPerson] -= 1;
     })
     
-    for(const participantPerson in participants) {
-        if(participants[participantPerson] > 0) {
-            answer = participantPerson;
+    // 완주 못한 사람 찾기
+    for(const retired in table) {
+        if(table[retired] === 1) {
+            answer = retired;
         }
     }
     
