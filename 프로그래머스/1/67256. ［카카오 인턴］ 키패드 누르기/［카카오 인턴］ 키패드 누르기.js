@@ -1,73 +1,65 @@
-function locationDiff(handLocation, numberLoctaion) {
-    const verticalDiff = Math.abs(handLocation[0] - numberLoctaion[0]);
-    const horizontalDiff = Math.abs(handLocation[1] - numberLoctaion[1]);
+function useNumberLocation(targetNumber) {
+    const numberPad = [[1,2,3], [4,5,6], [7,8,9], ['*', 0, "#"]];
+    let targetNumberLocation = [];
     
-    return verticalDiff + horizontalDiff;
+    numberPad.forEach((line, y) => {
+        line.forEach((num, x) => {
+            if(num === targetNumber) {
+                targetNumberLocation.push(y, x);    
+            }
+        })
+        ;
+    })
+    
+    return targetNumberLocation;
+}
+
+function useLocationDiff(currentLocation, targetNumber) {
+    const handDiff = [];
+    
+    const targetLocation = useNumberLocation(targetNumber);
+    
+    currentLocation.forEach(location => {
+        const horizontalDiff = Math.abs(location[1] - targetLocation[1]);
+        const verticalDiff = Math.abs(location[0] - targetLocation[0]);
+        const diff = horizontalDiff + verticalDiff;
+        handDiff.push(diff);
+    })
+    
+    return handDiff;
 }
 
 function solution(numbers, hand) {
-    const numberPad = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-  ['*', 0, '#']
-];
     var answer = '';
-    // 가로, 세로 좌표
-    let leftHandLocation = [3,0];
-    let rightHandLocation = [3,2];
-    let numberLocation = [0,0];
+    const currentHandLocation = [[3,0], [3,2]];
     
-    while(!!numbers.length) {
-        const currentNumber = numbers.shift();
-        
-        // 위치 정보 구하기
-        numberPad.forEach((numberArray, index_1) => {
-            numberArray.forEach((number, index_2) => {
-                if(currentNumber === number) {
-                    numberLocation = [index_1,index_2];
+    numbers.forEach(num => {
+        if(num === 1 || num === 4 || num === 7) {
+            currentHandLocation[0] =  useNumberLocation(num);
+            answer += 'L';
+        } else if(num === 3 || num === 6 || num === 9) {
+            currentHandLocation[1] =  useNumberLocation(num);
+            answer += 'R';
+        } else if(num === 2 || num === 5 || num === 8 || num === 0) {
+            // 거리 차 구하기 
+            const [leftHandDiff, rightHandDiff] = useLocationDiff(currentHandLocation, num);
+            // 거리 같다면 hand 확인
+            if(leftHandDiff === rightHandDiff) {
+                if(hand === 'right') {
+                    currentHandLocation[1] = useNumberLocation(num);
+                    answer+= 'R';
+                } else if(hand === 'left') {
+                    currentHandLocation[0] = useNumberLocation(num);
+                    answer+= 'L';
                 }
-            })
-        })
-        
-            if([1,4,7].includes(currentNumber)) {
-                leftHandLocation[0] = numberLocation[0];
-                leftHandLocation[1] = numberLocation[1];
-                answer+='L'
+            } else if(leftHandDiff > rightHandDiff){
+                currentHandLocation[1] =  useNumberLocation(num);
+                answer+= 'R';
+            } else if(leftHandDiff < rightHandDiff){
+                currentHandLocation[0] =  useNumberLocation(num);
+                answer+= 'L';
             }
-            if([3,6,9].includes(currentNumber)) {
-                rightHandLocation[0] = numberLocation[0];
-                rightHandLocation[1] = numberLocation[1];
-                answer+='R'
-            }
-            if([2,5,8,0].includes(currentNumber)) {
-                // 타이핑 손 정하기
-                const leftHandDiff = locationDiff(leftHandLocation, numberLocation);
-                const rightHandDiff = locationDiff(rightHandLocation, numberLocation);
-                
-                if(leftHandDiff > rightHandDiff) {
-                    rightHandLocation[0] = numberLocation[0];
-                    rightHandLocation[1] = numberLocation[1];
-                    answer+='R'
-                }
-                if(leftHandDiff < rightHandDiff) {
-                    leftHandLocation[0] = numberLocation[0];
-                    leftHandLocation[1] = numberLocation[1];
-                    answer+='L'
-                }
-                if(leftHandDiff === rightHandDiff) {
-                    if(hand === "right") {
-                        rightHandLocation[0] = numberLocation[0];
-                        rightHandLocation[1] = numberLocation[1];
-                        answer+='R'
-                    } else {
-                        leftHandLocation[0] = numberLocation[0];
-                        leftHandLocation[1] = numberLocation[1];
-                        answer+='L'
-                    }
-                }
-            }
-    }
-    
+        }
+    })
     return answer;
 }
